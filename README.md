@@ -1,4 +1,4 @@
-# 🍽️ E-Commerce website Restaurant System
+# 🍽️ E-Commerce Restaurant demo project
 
 A full-featured **Restaurant Management System** built using Django, designed to handle the core operations of a restaurant such as user registration, menu browsing, order placement, and order management. The system provides a dual login architecture for **admins** (via the Django admin panel) and **customers** (via a custom authentication system). It includes a working cart and order flow tailored for a seamless user experience.
 
