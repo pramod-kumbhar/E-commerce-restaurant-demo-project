@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House of Food | Order</title>
+    <link rel="stylesheet" href="{% static 'order.css' %}">
+</head>
+<body>
+    <div class="receipt">
+        <p class="shop-name">House of Food</p>
+        <p class="shop-name">Confirm your order</p>
+        <p class="info">
+            {{ user.first_name }} {{ user.last_name }}<br><br>
+            Email : {{ user.email }}<br><br>
+            Address : {{ user.address }}<br>        
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            {% for item in cart_items %}
+                <tbody>
+                    <tr>
+                        <td>{{ item.product.product_name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.price }}</td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+
+        <div class="total">
+            <p>Total:</p>
+            <p>{{ total_price }}</p>
+        </div>
+        
+        <div class='button-container'>
+            <a href="{% url 'hotelapp:place_order' %}" class="order-button">Order Now</a>
+        </div>
+
+        <p class="thanks">Thank you for shopping with us!</p>
+    </div>      
+</body>
+</html>

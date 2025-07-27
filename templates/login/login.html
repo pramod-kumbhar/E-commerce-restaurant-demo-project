@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <title>Login</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel='icon' href='{% static "assets/icon.png" %}'>
+    <link rel='stylesheet' href='{% static "login/style.css" %}'>
+    <link rel='stylesheet' href='{% static "notification.css" %}'>
+
+    <script src="{% static 'notification.js' %}"></script>
+
+    <div id="notification-container">
+        {% for message in messages %}
+        <div class="popup-container">
+            <div class="popup {{ message.tags }}-popup">
+                <div class="popup-icon {{ message.tags }}-icon">
+                </div>
+                <div class="{{ message.tags }}-message">{{ message }}</div>
+                <div class="popup-icon close-icon" onclick="closePopup(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true" class="close-svg">
+                        <path d="m15.8333 5.34166-1.175-1.175-4.6583 4.65834-4.65833-4.65834-1.175 1.175 4.65833 4.65834-4.65833 4.6583 1.175 1.175 4.65833-4.6583 4.6583 4.6583 1.175-1.175-4.6583-4.6583z"
+                        class="close-path"></path>
+                    </svg>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</head>
+
+<body> 
+    <section class="container">
+        <div class="form-box login">
+            <form method="post">
+                {% csrf_token %}
+                <h1>Login</h1>
+                <input type="hidden" name="form_type" value="login">
+                <div class="input-box"><input type="text" name="username" placeholder="Username" required><i>🙋🏻‍♂️</i></div>
+                <div class="input-box"><input type="password" name="password" placeholder="Password" required><i>🔒</i></div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+        </div>
+
+        <div class="form-box register">
+            <form method="post">
+                {% csrf_token %}
+                <h1>Create New Account</h1>
+                <input type="hidden" name="form_type" value="register">
+                <div class="input-box"><input type="text" name="first_name" placeholder="First Name" required></div>
+                <div class="input-box"><input type="text" name="last_name" placeholder="Last Name" required></div>
+                <div class="input-box"><input type="text" name="address" placeholder="Address" required><i>📌</i></div>
+                <div class="input-box"><input type="email" name="email" placeholder="Email" required><i>📧</i></div>
+                <div class="input-box"><input type="text" name="phone" placeholder="Phone Number" required><i>📱</i></div>
+                <div class="input-box"><input type="text" name="username" placeholder="Username" required><i>🙋🏻‍♂️</i></div>
+                <div class="input-box"><input type="password" name="password" placeholder="Password" required><i>🔒</i></div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+        </div>
+
+        <div class="toggle-box">
+            <div class="toggle-panel toggle-left">
+                <h1>Hello, Welcome!</h1>
+                <p>Don't have an account?</p>
+                <button class="btn register-btn">Register</button>
+            </div>
+
+            <div class="toggle-panel toggle-right">
+                <h1>Welcome Back!</h1>
+                <p>Already have an account?</p>
+                <button class="btn login-btn">Login</button>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        const container = document.querySelector('.container');
+        const registerBtn = document.querySelector('.register-btn');
+        const loginBtn = document.querySelector('.login-btn');
+
+        registerBtn.addEventListener('click', () => {
+            container.classList.add('active');
+        })
+
+        loginBtn.addEventListener('click', () => {
+            container.classList.remove('active');
+        })
+    </script>
+</body>
+</html>

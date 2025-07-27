@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>House of Food | Cart</title>
+  <link rel="stylesheet" href="{% static 'cart.css' %}">
+</head>
+
+<body>
+  <form class="master-container" method="POST" action="{% url 'hotelapp:view_cart' %}">
+    {% csrf_token %}
+    <div class="card cart">
+      <label class="title">Your cart</label>
+      <div class="products">
+        
+        {% for item in cart_items %}
+        <div class="product">
+          <div>
+            <span>{{ item.product.product_name }}</span>
+          </div>
+          <div class="quantity">
+              <input type="number" id="quantity" name="quantity_{{ item.product_id }}" required="" value="{{ item.quantity }}" min="1">
+          </div>
+          <label class="price small">Rs. {{ item.product.price }}</label>
+        </div>
+        {% endfor %}
+      
+      </div>
+      <div class='button-container'>
+        <button type="submit" class="order-button">Place Order</button>
+    </div>
+  </form> 
+</body>
+</html>

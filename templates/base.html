@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <title>House of Food | {% block title %}{% endblock title %}</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='icon' href='{% static "assets/icon.png" %}'>
+    <link rel='stylesheet' href='{% static "style.css" %}'>
+    <link rel='stylesheet' href='{% static "notification.css" %}'>
+    <link rel='stylesheet' href='{% static "menu.css" %}'>
+    <link rel='stylesheet' href='{% static "cart.css" %}'>
+    <link rel='stylesheet' href='{% static "fonts.css" %}'>
+    <link rel='stylesheet' href='{% static "animation.css" %}'>
+    <link rel='stylesheet' href='{% static "slider.css" %}'>
+
+    <script src="{% static 'notification.js' %}"></script>
+    <script src="{% static 'navbar.js' %}"></script>
+
+    {% block head %}
+    {% endblock head %}
+</head>
+
+<body>
+    <header>
+        <a class="logo" href="#home">House of food</a>
+        <ul>
+            <li><a href="{% url 'hotelapp:home' %}#home">Home</a></li>
+            <li><a href="{% url 'hotelapp:home' %}#about">About</a></li>
+            <li><a href="{% url 'hotelapp:home' %}#menu">Menu</a></li>
+            <li><a href="{% url 'hotelapp:home' %}#reservation">Reservation</a></li>
+            <li><a href="{% url 'hotelapp:home' %}#contact">Contact</a></li>
+        </ul>
+        <ul>
+            <li>
+                <a data-quantity="{{ cart_quantity }}" class="btn-cart" href="{% url 'hotelapp:view_cart' %}">
+                    <svg class="icon-cart" viewBox="0 0 24.38 30.52" height="30.52" width="24.38" xmlns="http://www.w3.org/2000/svg">
+                    <title>cart</title>
+                    <path transform="translate(-3.62 -0.85)" d="M28,27.3,26.24,7.51a.75.75,0,0,0-.76-.69h-3.7a6,6,0,0,0-12,0H6.13a.76.76,0,0,0-.76.69L3.62,27.3v.07a4.29,4.29,0,0,0,4.52,4H23.48a4.29,4.29,0,0,0,4.52-4ZM15.81,2.37a4.47,4.47,0,0,1,4.46,4.45H11.35a4.47,4.47,0,0,1,4.46-4.45Zm7.67,27.48H8.13a2.79,2.79,0,0,1-3-2.45L6.83,8.34h3V11a.76.76,0,0,0,1.52,0V8.34h8.92V11a.76.76,0,0,0,1.52,0V8.34h3L26.48,27.4a2.79,2.79,0,0,1-3,2.44Zm0,0"></path>
+                    </svg>
+                    <span class="quantity"></span>
+                </a>
+            </li>
+            <li><a href="{% url 'loginapp:user' %}" class='user'>{{ user.first_name }}</a></li>
+            <li><a href="{% url 'loginapp:logout' %}" class='user'>log out</a></li>
+        </ul>
+    </header>
+
+    <div id="notification-container">
+        {% for message in messages %}
+        <div class="popup-container">
+            <div class="popup {{ message.tags }}-popup">
+                <div class="popup-icon {{ message.tags }}-icon">
+                </div>
+                <div class="{{ message.tags }}-message">{{ message }}</div>
+                <div class="popup-icon close-icon" onclick="closePopup(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" aria-hidden="true" class="close-svg">
+                        <path d="m15.8333 5.34166-1.175-1.175-4.6583 4.65834-4.65833-4.65834-1.175 1.175 4.65833 4.65834-4.65833 4.6583 1.175 1.175 4.65833-4.6583 4.6583 4.6583 1.175-1.175-4.6583-4.6583z"
+                        class="close-path"></path>
+                    </svg>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="responsive-bar">
+        <a class="dropper"><img class="menu" src="{% static 'assets/menu.svg' %}" alt="menu"
+                onclick="toggleDropdown()"></a>
+        <div class="dropped-content" id="dropdown">
+            <ul>
+                <li><a href="{% url 'hotelapp:home' %}#home">Home</a></li>
+                <li><a href="{% url 'hotelapp:home' %}#about">About</a></li>
+                <li><a href="{% url 'hotelapp:home' %}#menu">Menu</a></li>
+                <li><a href="{% url 'hotelapp:home' %}#reservation">Reservation</a></li>
+                <li><a href="{% url 'hotelapp:home' %}#contact">Contact</a></li>
+            </ul>
+            <ul>
+                <li>
+                    <a data-quantity="{{ cart_quantity }}" class="btn-cart" href="{% url 'hotelapp:view_cart' %}">
+                        <svg class="icon-cart" viewBox="0 0 24.38 30.52" height="30.52" width="24.38" xmlns="http://www.w3.org/2000/svg">
+                        <title>cart</title>
+                        <path transform="translate(-3.62 -0.85)" d="M28,27.3,26.24,7.51a.75.75,0,0,0-.76-.69h-3.7a6,6,0,0,0-12,0H6.13a.76.76,0,0,0-.76.69L3.62,27.3v.07a4.29,4.29,0,0,0,4.52,4H23.48a4.29,4.29,0,0,0,4.52-4ZM15.81,2.37a4.47,4.47,0,0,1,4.46,4.45H11.35a4.47,4.47,0,0,1,4.46-4.45Zm7.67,27.48H8.13a2.79,2.79,0,0,1-3-2.45L6.83,8.34h3V11a.76.76,0,0,0,1.52,0V8.34h8.92V11a.76.76,0,0,0,1.52,0V8.34h3L26.48,27.4a2.79,2.79,0,0,1-3,2.44Zm0,0"></path>
+                        </svg>
+                        <span class="quantity"></span>
+                    </a>
+                </li>
+                <li><a href="" class='user'>{{ user.first_name }}</a></li>
+                <li><a href="{% url 'loginapp:logout' %}" class='user'>log out</a></li>
+            </ul>
+        </div>
+    </div>
+
+    {% block body %}{% endblock body %}
+
+    <footer>
+        <section class="footer-container" id="contact">
+            <div>
+                <p>Open Hours</p>
+                <ol>
+                    <li>Monday : 10:00 AM - 10:00 PM</li>
+                    <li>Tuesday : 10:00 AM - 10:00 PM</li>
+                    <li>Wednesday : 10:00 AM - 10:00 PM</li>
+                    <li>Thursday : 10:00 AM - 10:00 PM</li>
+                    <li>Friday : 10:00 AM - 10:00 PM</li>
+                    <li>Saterday : 10:00 AM - 10:00 PM</li>
+                    <li>Sunday : 10:00 AM - 10:00 PM</li>
+                </ol>
+            </div>
+            <div>
+                <p>Contact</p>
+                <ol>
+                    <li>Phone : 90******04</li>
+                    <li>Email : xyz@gmail.com</li>
+                    <li>Address : Near xyz mall, opposite to xyz building, xyz city</li>
+                </ol>
+            </div>
+            <div>
+                <p>Map</p>
+            </div>
+        </section>
+        <p>&copy;2025 PAMMS</p>
+    </footer>
+</body>
+
+</html>

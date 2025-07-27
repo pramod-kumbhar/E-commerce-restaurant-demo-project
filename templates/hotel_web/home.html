@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+
+{% block body %}
+<main>
+<section class="container1" id="home">
+    <div class="bg-img"></div>
+    <div class="grid-conatiner1">
+        <div class='title-container'>
+            <p class='title-main'>Best Quality</p>
+            <p class='title-sub'>Food</p>
+        </div>
+        <div class="anim-plate">
+            <img class='plate' src="{% static 'assets/plate.png' %}" alt="animated plate">
+        </div>
+    </div>
+</section>
+</main>
+
+<main class="main1">
+<section class="container2">
+    <div class="grid-container2">
+        <div class="feature-container1">
+            <p class="feature-title">Professional Chefs</p>
+            <p class="feature-disc">We have best chefs with years of experience in cooking.</p>
+        </div>
+        <div class="feature-container2">
+            <p class="feature-title">Quality Food</p>
+            <p class="feature-disc">We have best Quality of food.</p>
+
+        </div>
+        <div class="feature-container3">
+            <p class="feature-title">Online Order</p>
+            <p class="feature-disc">We have online order system with faster delivery on doorstep.</p>
+        </div>
+        <div class="feature-container4">
+            <p class="feature-title">Event Booking</p>
+            <p class="feature-disc">We provide event booking service for birthday, wedding, corporate event etc.</p>
+        </div>
+    </div>
+</section>
+</main>
+
+<main>
+<section class="container3" id="about">
+    <div class="grid-container3">
+        <div class="about-img">
+            <img class='rest-img' src='{% static "assets/restorant2.jpg" %}' alt='rest-img'>
+        </div>
+        <div class="about-text-container">
+            <p class="about-title">About</p>
+            <p class="about-title-sub">Welcome to <b>House of Food</b></p>
+            <p class="about-disc">
+                At <strong>House of Food</strong> Diner, we believe that the most important thing about a meal is the
+                people you share it with.
+                That's why our mission is to strive for a wholesome and family-friendly environment where loved ones
+                can gather over a bowl of soup or a piece of pie.
+            </p>
+        </div>
+    </div>
+</section>
+</main>
+
+<main class="main2">
+<section class="container4">
+    <p class="quate1">NOW BOOKING</p><br><br>
+    <p class="quate2">Private Dinners and Happy Hours</p>
+</section>
+</main>
+
+<main>
+<section class='container5' id="menu">
+    <div class="menu-title">
+        <p class="menu-title">Todays Special</p>
+        <p class="menu-title-sub">Our Menu</p>
+    </div>
+
+    <div class="menu-container">
+        {% for product in products %}
+            <div class="dish-container">
+                <div class="dish-img">
+                    <img src="{{ product.image.url }}" alt="dish">
+                </div>
+                <p class="dish-title">{{ product.product_name }}</p>
+                <p class="dish-disc">{{ product.disc }}</p><br>
+                <p class="dish-{{ product.status }}">{{ product.status }}</p><br>
+                
+                <a href="{% url 'hotelapp:add_to_cart' product.id %}" class="cart-container">
+                    <div class="button cart-{{ product.status }}" data-tooltip="Rs.{{ product.price }}">
+                        <div class="button-wrapper">
+                            <div class="text">Add To Cart</div>
+                            <span class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-cart2" viewBox="0 0 16 16">
+                                    <path
+                                        d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z">
+                                    </path>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <a class="view-more-button" href="{% url 'hotelapp:menu' %}">View More</a>
+</section>
+</main>
+
+<main class="main3">
+<section class="slider-container">
+    <h1 class="review-title">Customer Reviews</h1>
+    <div class="slider">
+        <div class="slide">
+            <div class="caption">
+                <b>Yummy..</b>
+                “Best restorant in town.”
+            </div>
+        </div>
+        <div class="slide">
+            <div class="caption">
+                <b>Superb..</b>
+                “Test of food is good.”
+            </div>
+        </div>
+        <div class="slide">
+            <div class="caption">
+                <b>Fabulous..</b>
+                “The food here is absolutely delicious!”
+            </div>
+        </div>
+    </div>
+    <div class="dots">
+        <span class="dot active" data-slide="0"></span>
+        <span class="dot" data-slide="1"></span>
+        <span class="dot" data-slide="2"></span>
+    </div>
+</section>
+
+<script src=' {% static "slider.js" %}'></script>
+</main>
+
+<main>
+<section class="container6" id="reservation">
+    <form id="form" class="feed-form" method="POST" action="{% url 'hotelapp:booking' %}">
+        {% csrf_token %}
+        <p class="feed-title">Now</p>
+        <legend>Book your table</legend>
+        <input type="text" id='name' name="name" required="" placeholder="Name">
+        <input type="email" id='email' name="email" required="" placeholder="E-mail" type="email">
+        <input type="text" id='phone' name="phone" required="" placeholder="Phone number">
+        <input type="number" id='people' name="peoples" required="" placeholder="Number of Peoples">
+        <input type="number" id='table' name="table" required="" placeholder="Table Number" max="20">
+        <input type="date" id='date' name="date" required="">
+        <input type="time" id='time' name="time" required="" value="{{ time }}" min="09:00" max="22:00">
+        <button type='submit' class="button_submit">BOOK</button>
+    </form>
+</section>
+</main>
+{% endblock body %}
